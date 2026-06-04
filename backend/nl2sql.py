@@ -13,14 +13,24 @@ def call_ollama(prompt):
         "stream": False
     }
 
-    response = requests.post(OLLAMA_URL, json=payload, timeout=120)
+    headers = {
+        "ngrok-skip-browser-warning": "true",
+        "Content-Type": "application/json"
+    }
+
+    response = requests.post(
+        OLLAMA_URL,
+        json=payload,
+        headers=headers,
+        timeout=120
+    )
+
     response.raise_for_status()
 
     result = response.json()
     raw_output = result.get("response", "")
 
     return clean_sql_output(raw_output)
-
 
 def build_prompt(schema, question, dialect):
     return f"""
