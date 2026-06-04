@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Natural Language Database Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="app-container">
+        <header class="hero">
+            <h1>Natural Language Database Assistant</h1>
+            <p>
+                Type a database request in plain English. The system generates SQL,
+                validates it, and executes it only after your review.
+            </p>
+        </header>
+
+        <section class="card">
+            <div class="schema-header">
+                <h2>Database Connection</h2>
+                <span id="dialectBadge" class="badge">Loading...</span>
+            </div>
+
+            <details class="schema-box">
+                <summary>View Current Schema</summary>
+                <pre id="schemaText">Loading schema...</pre>
+            </details>
+        </section>
+
+        <section class="card">
+            <h2>Natural Language Request</h2>
+
+            <textarea
+                id="userRequest"
+                placeholder="Example: Create a table called employees with id, name, department and salary"
+            ></textarea>
+
+            <button id="generateBtn" class="primary-btn">
+                Generate SQL
+            </button>
+        </section>
+
+        <section id="sqlSection" class="card hidden">
+            <h2>Generated SQL Preview</h2>
+
+            <pre id="generatedSql" class="sql-box"></pre>
+
+            <p id="validationMessage" class="message"></p>
+
+            <div id="dangerBox" class="danger-box hidden">
+                <p>
+                    This action may change or delete data. Type
+                    <strong>RUN</strong> below to enable execution.
+                </p>
+
+                <input
+                    id="confirmInput"
+                    type="text"
+                    placeholder="Type RUN to confirm"
+                >
+            </div>
+
+            <button id="executeBtn" class="execute-btn">
+                Execute SQL
+            </button>
+        </section>
+
+        <section id="resultSection" class="card hidden">
+            <h2>Result</h2>
+            <p id="resultMessage" class="message"></p>
+            <div id="tableContainer"></div>
+        </section>
+
+        <section id="correctionSection" class="card hidden">
+            <h2>Corrected SQL Suggestion</h2>
+            <pre id="correctedSql" class="sql-box"></pre>
+            <p id="correctionMessage" class="message"></p>
+        </section>
+
+        <section class="card">
+            <h2>Action History</h2>
+            <div id="historyList" class="history-list">
+                <p>No actions yet.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
