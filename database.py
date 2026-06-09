@@ -69,10 +69,6 @@ def get_schema():
 
 
 def dataframe_to_json_safe(df):
-    """
-    Converts pandas DataFrame into normal JSON-safe Python objects.
-    This avoids FastAPI errors with numpy int64, float64, Timestamp, etc.
-    """
     return json.loads(df.to_json(orient="records", date_format="iso"))
 
 
@@ -83,8 +79,7 @@ def execute_database_action(sql_query):
         return {
             "success": False,
             "type": "error",
-            "columns": [],
-            "rows": [],
+            "data": None,
             "message": "SQL query is empty."
         }
 
@@ -98,8 +93,7 @@ def execute_database_action(sql_query):
                 return {
                     "success": True,
                     "type": "read",
-                    "columns": list(df.columns),
-                    "rows": dataframe_to_json_safe(df),
+                    "data": df,
                     "message": f"Query executed successfully. Rows returned: {len(df)}"
                 }
 
@@ -108,8 +102,7 @@ def execute_database_action(sql_query):
             return {
                 "success": True,
                 "type": "write",
-                "columns": [],
-                "rows": [],
+                "data": None,
                 "message": (
                     "Database action executed successfully. "
                     f"Rows affected: {result.rowcount}"
@@ -120,7 +113,6 @@ def execute_database_action(sql_query):
         return {
             "success": False,
             "type": "error",
-            "columns": [],
-            "rows": [],
+            "data": None,
             "message": str(e)
         }
